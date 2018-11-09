@@ -9,7 +9,7 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.ewolff</groupId>
+	<groupId>poc</groupId>
 	<artifactId>microservice-kubernetes-demo</artifactId>
 	<!--<version>1.0-SNAPSHOT</version> to update the build number -->
 	<version>0.0.1-SNAPSHOT</version> 
