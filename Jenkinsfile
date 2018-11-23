@@ -55,7 +55,7 @@ pipeline
 				    orderdockerImage.push()
 				    catalogdockerImage.push()
 				    customerdockerImage.push()
-				    hystrix-dashboarddockerImage.push()
+				    dashboarddockerImage.push()
 				}
                              }
                     }
