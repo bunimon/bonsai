@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: apache-container
-        image: engdopaksacr.azurecr.io/apache:img_id
+        image: engdopaksacr.azurecr.io/apache:{{Build.BuildID}}
         ports:
         - containerPort: 80
 ---
@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: catalog-container
-        image: engdopaksacr.azurecr.io/catalog:img_id
+        image: engdopaksacr.azurecr.io/catalog:{{Build.BuildID}}
         ports:
         - containerPort: 8080
 ---
@@ -67,7 +67,7 @@ spec:
     spec:
       containers:
       - name: customer-container
-        image: engdopaksacr.azurecr.io/customer:img_id
+        image: engdopaksacr.azurecr.io/customer:{{Build.BuildID}}
         ports:
         - containerPort: 8080
 ---
@@ -95,7 +95,7 @@ spec:
     spec:
       containers:
       - name: dashboard-container
-        image: engdopaksacr.azurecr.io/dashboard:img_id
+        image: engdopaksacr.azurecr.io/dashboard:{{Build.BuildID}}
         ports:
         - containerPort: 8080
 ---
@@ -123,7 +123,7 @@ spec:
     spec:
       containers:
       - name: demo-container
-        image: engdopaksacr.azurecr.io/demo:img_id
+        image: engdopaksacr.azurecr.io/demo:{{Build.BuildID}}
         ports:
         - containerPort: 8080
 ---
