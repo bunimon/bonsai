@@ -36,7 +36,7 @@ pipeline
                steps
 		   {
                       script {
-                              apachedockerImage = docker.build (apacheregistry + ":$BUILD_NUMBER", " -f ./apache/Dockerfile")
+                              apachedockerImage = docker.build (apacheregistry + ":$BUILD_NUMBER", "./apache")
 			      orderdockerImage = docker.build (orderregistry + ":$BUILD_NUMBER", "./microservice-kubernetes-demo-order/Dockerfile")
 			      catalogdockerImage = docker.build (catalogregistry + ":$BUILD_NUMBER", ".microservice-kubernetes-demo-catalog/Dockerfile")
 			      customerdockerImage = docker.build (customerregistry + ":$BUILD_NUMBER", "./microservice-kubernetes-demo-customer/Dockerfile")
