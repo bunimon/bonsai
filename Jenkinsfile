@@ -7,12 +7,12 @@ pipeline
 	  orderregistry = 'ansiblepocacr.azurecr.io/order'
 	  catalogregistry = 'ansiblepocacr.azurecr.io/catalog'
 	  customerregistry = 'ansiblepocacr.azurecr.io/customer'
-	  hystrix-dashboardregistry = 'ansiblepocacr.azurecr.io/hystrix-dashboard'
+          dashboardregistry = 'ansiblepocacr.azurecr.io/hystrix-dashboard'
 	  apachedockerImage = ''
 	  orderdockerImage = ''
 	  catalogdockerImage = ''
 	  customerdockerImage = ''
-	  hystrix-dashboarddockerImage = '' 
+	  dashboarddockerImage = '' 
        }
     agent none
     stages 
@@ -40,7 +40,7 @@ pipeline
 			      orderdockerImage = docker.build (orderregistry + ":$BUILD_NUMBER","./microservice-kubernetes-demo-order/Dockerfile")
 			      catalogdockerImage = docker.build (catalogregistry + ":$BUILD_NUMBER",".microservice-kubernetes-demo-catalog/Dockerfile")
 			      customerdockerImage = docker.build (customerregistry + ":$BUILD_NUMBER","./microservice-kubernetes-demo-customer/Dockerfile")
-			      hystrix-dashboarddockerImage = docker.build (hystrix-dashboardregistry + ":$BUILD_NUMBER","./microservice-kubernetes-demo-hystrix-dashboard/Dockerfile")
+			      dashboarddockerImage = docker.build (dashboardregistry + ":$BUILD_NUMBER","./microservice-kubernetes-demo-hystrix-dashboard/Dockerfile")
                              }
                    }
             }
