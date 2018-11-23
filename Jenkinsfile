@@ -37,10 +37,10 @@ pipeline
 		   {
                       script {
                               apachedockerImage = docker.build (apacheregistry + ":$BUILD_NUMBER", "./apache")
-			      orderdockerImage = docker.build (orderregistry + ":$BUILD_NUMBER", "./microservice-kubernetes-demo-order/Dockerfile")
-			      catalogdockerImage = docker.build (catalogregistry + ":$BUILD_NUMBER", ".microservice-kubernetes-demo-catalog/Dockerfile")
-			      customerdockerImage = docker.build (customerregistry + ":$BUILD_NUMBER", "./microservice-kubernetes-demo-customer/Dockerfile")
-			      dashboarddockerImage = docker.build (dashboardregistry + ":$BUILD_NUMBER", "./microservice-kubernetes-demo-hystrix-dashboard/Dockerfile")
+			      orderdockerImage = docker.build (orderregistry + ":$BUILD_NUMBER", "./microservice-kubernetes-demo-order")
+			      catalogdockerImage = docker.build (catalogregistry + ":$BUILD_NUMBER", ".microservice-kubernetes-demo-catalog")
+			      customerdockerImage = docker.build (customerregistry + ":$BUILD_NUMBER", "./microservice-kubernetes-demo-customer")
+			      dashboarddockerImage = docker.build (dashboardregistry + ":$BUILD_NUMBER", "./microservice-kubernetes-demo-hystrix-dashboard")
                              }
                    }
             }
