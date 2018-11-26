@@ -69,6 +69,8 @@ pipeline
 			  {
 
 			    sh 'kubectl apply -f engdopdemo.yaml'
+			    echo 'Waiting 2 minutes for deployment to complete'
+			    sleep 120 // seconds
 			    sh 'kubectl get svc'
 		          }
 		    }		    
