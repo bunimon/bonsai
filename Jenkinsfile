@@ -67,7 +67,7 @@ pipeline
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-                            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
+                            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'kubectl apply -f engdopdemo.yaml'
 			    echo 'Waiting 2 minutes for deployment to complete'
 			    sleep 120 // seconds
