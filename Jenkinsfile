@@ -67,9 +67,10 @@ pipeline
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
+			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group ANSIBLE_POCTEST --name ansiblePocAks'
-			    sh 'kubectl apply -f deployment.yml --version=$BUILD_NUMBER'
+			    sh 'kubectl apply -f deployment.yml'
 			    echo 'Waiting 2 minutes for deployment to complete'
 			    sleep 60 // seconds
 			    sh 'kubectl get svc'
