@@ -71,7 +71,7 @@ pipeline
 			    sh 'az aks get-credentials --resource-group ANSIBLE_POCTEST --name ansiblePocAks'
 			    sh 'kubectl apply -f deployment.yml --version=$BUILD_NUMBER'
 			    echo 'Waiting 2 minutes for deployment to complete'
-			    sleep 120 // seconds
+			    sleep 60 // seconds
 			    sh 'kubectl get svc'
 		          }
 		    }		    
