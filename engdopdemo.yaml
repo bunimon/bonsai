@@ -95,7 +95,7 @@ spec:
     spec:
       containers:
       - name: dashboard-container
-        image: ansiblepocacr.azurecr.io/dashboard:1
+        image: ansiblepocacr.azurecr.io/hystrix-dashboard:1
         ports:
         - containerPort: 8080
 ---
@@ -123,7 +123,7 @@ spec:
     spec:
       containers:
       - name: demo-container
-        image: ansiblepocacr.azurecr.io/demo:1
+        image: ansiblepocacr.azurecr.io/order:1
         ports:
         - containerPort: 8080
 ---
