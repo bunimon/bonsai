@@ -14,6 +14,8 @@ spec:
         image: engdopaksacr.azurecr.io/apache:1
         ports:
         - containerPort: 80
+        imagePullSecrets:
+      - name: acrcredential
 ---
 apiVersion: v1
 kind: Service
