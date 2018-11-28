@@ -11,11 +11,9 @@ spec:
     spec:
       containers:
       - name: apache-container
-        image: engdopaksacr.azurecr.io/apache:1
+        image: ansiblepocacr.azurecr.io/apache:1
         ports:
         - containerPort: 80
-      imagePullSecrets:
-      - name: acrcredential
 ---
 apiVersion: v1
 kind: Service
@@ -41,7 +39,7 @@ spec:
     spec:
       containers:
       - name: catalog-container
-        image: engdopaksacr.azurecr.io/catalog:1
+        image: ansiblepocacr.azurecr.io/catalog:1
         ports:
         - containerPort: 8080
 ---
@@ -69,7 +67,7 @@ spec:
     spec:
       containers:
       - name: customer-container
-        image: engdopaksacr.azurecr.io/customer:1
+        image: ansiblepocacr.azurecr.io/customer:1
         ports:
         - containerPort: 8080
 ---
@@ -97,7 +95,7 @@ spec:
     spec:
       containers:
       - name: dashboard-container
-        image: engdopaksacr.azurecr.io/dashboard:1
+        image: ansiblepocacr.azurecr.io/dashboard:1
         ports:
         - containerPort: 8080
 ---
@@ -125,7 +123,7 @@ spec:
     spec:
       containers:
       - name: demo-container
-        image: engdopaksacr.azurecr.io/demo:1
+        image: ansiblepocacr.azurecr.io/demo:1
         ports:
         - containerPort: 8080
 ---
