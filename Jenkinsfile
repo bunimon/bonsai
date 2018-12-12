@@ -71,7 +71,7 @@ pipeline
 			  {
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
-			    sh 'az aks get-credentials --resource-group resourcegroup --name aksname'
+			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 			    sh 'kubectl apply -f deployment.yml'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
