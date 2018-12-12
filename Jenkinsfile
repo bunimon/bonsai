@@ -8,6 +8,8 @@ pipeline
 	  catalogregistry = 'ansiblepocacr.azurecr.io/catalog'
 	  customerregistry = 'ansiblepocacr.azurecr.io/customer'
           dashboardregistry = 'ansiblepocacr.azurecr.io/hystrix-dashboard'
+	  resourcegroup = 'ANSIBLE_POCTEST'
+	  aksname = 'ansiblePocAks'
 	  apachedockerImage = ''
 	  orderdockerImage = ''
 	  catalogdockerImage = ''
@@ -69,7 +71,7 @@ pipeline
 			  {
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
-			    sh 'az aks get-credentials --resource-group ANSIBLE_POCTEST --name ansiblePocAks'
+			    sh 'az aks get-credentials --resource-group resourcegroup --name aksname'
 			    sh 'kubectl apply -f deployment.yml'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
