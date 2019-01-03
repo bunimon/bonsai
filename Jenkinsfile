@@ -3,13 +3,13 @@ pipeline
     environment 
        {
           registryCredential = 'acrcredential'
-	  apacheregistry = 'ansiblepocacr.azurecr.io/apache'
-	  orderregistry = 'ansiblepocacr.azurecr.io/order'
-	  catalogregistry = 'ansiblepocacr.azurecr.io/catalog'
-	  customerregistry = 'ansiblepocacr.azurecr.io/customer'
-          dashboardregistry = 'ansiblepocacr.azurecr.io/hystrix-dashboard'
-	  resourcegroup = 'ANSIBLE_POCTEST'
-	  aksname = 'ansiblePocAks'
+	  apacheregistry = 'msdpacr.azurecr.io/apache'
+	  orderregistry = 'msdpacr.azurecr.io/order'
+	  catalogregistry = 'msdpacr.azurecr.io/catalog'
+	  customerregistry = 'msdpacr.azurecr.io/customer'
+          dashboardregistry = 'msdpacr.azurecr.io/hystrix-dashboard'
+	  resourcegroup = 'RG_MSDP'
+	  aksname = 'MSDPaks'
 	  apachedockerImage = ''
 	  orderdockerImage = ''
 	  catalogdockerImage = ''
@@ -51,7 +51,7 @@ pipeline
                 steps
 		    {
                       script {                     
-			      docker.withRegistry( 'https://ansiblepocacr.azurecr.io', 'acrcredential' ) 
+			      docker.withRegistry( 'https://msdpacr.azurecr.io', 'acrcredential' ) 
 			        { 
 				    apachedockerImage.push() 
 				    orderdockerImage.push()
