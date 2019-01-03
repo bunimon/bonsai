@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: apache-container
-        image: ansiblepocacr.azurecr.io/apache:version
+        image: msdpacr.azurecr.io/apache:version
         ports:
         - containerPort: 80
 ---
@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: catalog-container
-        image: ansiblepocacr.azurecr.io/catalog:version
+        image: msdpacr.azurecr.io/catalog:version
         ports:
         - containerPort: 8080
 ---
@@ -67,7 +67,7 @@ spec:
     spec:
       containers:
       - name: customer-container
-        image: ansiblepocacr.azurecr.io/customer:version
+        image: msdpacr.azurecr.io/customer:version
         ports:
         - containerPort: 8080
 ---
@@ -95,7 +95,7 @@ spec:
     spec:
       containers:
       - name: dashboard-container
-        image: ansiblepocacr.azurecr.io/hystrix-dashboard:version
+        image: msdpacr.azurecr.io/hystrix-dashboard:version
         ports:
         - containerPort: 8080
 ---
@@ -123,7 +123,7 @@ spec:
     spec:
       containers:
       - name: demo-container
-        image: ansiblepocacr.azurecr.io/order:version
+        image: msdpacr.azurecr.io/order:version
         ports:
         - containerPort: 8080
 ---
