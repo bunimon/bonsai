@@ -2,14 +2,15 @@ pipeline
   {
     environment 
        {
-          registryCredential = 'acrcredential'
-	  apacheregistry = 'msdpacr.azurecr.io/apache'
-	  orderregistry = 'msdpacr.azurecr.io/order'
-	  catalogregistry = 'msdpacr.azurecr.io/catalog'
-	  customerregistry = 'msdpacr.azurecr.io/customer'
-          dashboardregistry = 'msdpacr.azurecr.io/hystrix-dashboard'
 	  resourcegroup = 'RG_MSDP'
 	  aksname = 'MSDPaks'
+	  acrservername = 'msdpacr.azurecr.io'
+          registryCredential = 'acrcredential'
+	  apacheregistry = '$acrservername/apache'
+	  orderregistry = '$acrservername/order'
+	  catalogregistry = '$acrservername/catalog'
+	  customerregistry = '$acrservername/customer'
+          dashboardregistry = '$acrservername/hystrix-dashboard'
 	  apachedockerImage = ''
 	  orderdockerImage = ''
 	  catalogdockerImage = ''
