@@ -63,7 +63,7 @@ pipeline
                              }
                     }
              }
-         stage('Deploy Application to AKS') 
+         stage('Deploy Application to DEV') 
 	    {
 		agent any    
 	      steps
@@ -73,12 +73,32 @@ pipeline
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
-			    sh 'kubectl apply -f deployment.yml'
+				sh 'kubectl create namespace dev-micro'
+			    sh 'kubectl apply -f deployment.yml --namespace=dev-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc'
 		          }
 		    }		    
             }
+		 stage('Deploy Application to QA') 
+	    {
+		agent any    
+	      steps
+		    {
+		      withCredentials([azureServicePrincipal('azurelogin')])
+			  {
+			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
+                            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
+				sh 'kubectl create namespace qa-micro'
+			    sh 'kubectl apply -f deployment.yml --namespace=qa-micro'
+			    echo 'Waiting for external IP to be genarated'
+			    sleep 120 // seconds
+			    sh 'kubectl get svc'
+		          }
+		    }		    
+            }
+
        }
    }
