@@ -1,5 +1,6 @@
 pipeline 
   {
+    agent none
     environment 
        {
 	  resourcegroup = 'RG_MSDP1'
@@ -36,6 +37,7 @@ pipeline
             }
          stage('Building image') 
             {
+			agent any
                steps
 		   {
                       script {
@@ -49,6 +51,7 @@ pipeline
             }
 	 stage('Deploy Image to ACR') 
 	    {
+				agent any
                 steps
 		    {
                       script {                     
@@ -99,7 +102,7 @@ ${env.BUILD_URL}input
            
 Regards,
 Jenkins""",
-            to: 'aromal.jayarajan@infosys.com'
+            to: 'aromalraj123@gmail.com'
             
           )
         
