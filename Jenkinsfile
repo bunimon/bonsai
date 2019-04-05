@@ -2,7 +2,7 @@ pipeline
   {
     environment 
        {
-	  resourcegroup = 'RG_MSDP'
+	  resourcegroup = 'RG_MSDP1'
 	  aksname = 'MSDPaks'
 	  acrservername = 'msdpacr.azurecr.io'
           registryCredential = 'acrcredential'
