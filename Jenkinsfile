@@ -77,10 +77,37 @@ pipeline
 			    sh 'kubectl apply -f deployment.yml --namespace=dev-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
-			    sh 'kubectl get svc'
+			    sh 'kubectl get svc --namespace=dev-micro'
 		          }
 		    }		    
             }
+			              stage ('QA Promotion')
+              {
+
+                  steps
+                  {
+                      
+                        emailext (
+            subject: "QA Deployment Approval for micro app,
+            body: """Hi Team,
+            
+Dev verification for the micro_app has been completed. 
+            
+Could you please Approve/Reject the micro_app to QA usning the below link
+            
+${env.BUILD_URL}input 
+           
+Regards,
+Jenkins""",
+            recipientProviders: aromal.jayarajan@infosys.com
+            
+          )
+        
+                input message: "Do you want to approve this job to deploy to QA?", submitter: "jenkins"
+                
+
+                    }
+              }
 		 stage('Deploy Application to QA') 
 	    {
 		agent any    
@@ -95,7 +122,7 @@ pipeline
 			    sh 'kubectl apply -f deployment.yml --namespace=qa-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
-			    sh 'kubectl get svc'
+			    sh 'kubectl get svc --namespace=qa-micro'
 		          }
 		    }		    
             }
