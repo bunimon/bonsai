@@ -18,7 +18,7 @@ pipeline
 	  customerdockerImage = ''
 	  dashboarddockerImage = '' 
        }
-    agent none
+
     stages 
        {
          stage('Build') 
