@@ -88,7 +88,7 @@ pipeline
                   {
                       
                         emailext (
-            subject: "QA Deployment Approval for micro app"
+            subject: "QA Deployment Approval for micro app",
             body: """Hi Team,
             
 Dev verification for the micro_app has been completed. 
