@@ -99,7 +99,7 @@ ${env.BUILD_URL}input
            
 Regards,
 Jenkins""",
-            recipientProviders: "aromal.jayarajan@infosys.com"
+            to: 'aromal.jayarajan@infosys.com'
             
           )
         
