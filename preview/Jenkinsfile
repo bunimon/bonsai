@@ -66,7 +66,7 @@ pipeline
                              }
                     }
              }
-         stage('Deploy Application to DEV') 
+         stage('Deploy Application to Preview envt') 
 	    {
 		agent any    
 	      steps
@@ -76,59 +76,15 @@ pipeline
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
-				sh 'kubectl create namespace dev-micro'
-			    sh 'kubectl apply -f deployment.yml --namespace=dev-micro'
+				sh 'kubectl create namespace preview-micro'
+			    sh 'kubectl apply -f deployment.yml --namespace=preview-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
-			    sh 'kubectl get svc --namespace=dev-micro'
+			    sh 'kubectl get svc --namespace=preview-micro'
 		          }
 		    }		    
             }
-			              stage ('QA Promotion')
-              {
-
-                  steps
-                  {
-                      
-                        emailext (
-            subject: "QA Deployment Approval for micro app",
-            body: """Hi Team,
-            
-Dev verification for the micro_app has been completed. 
-            
-Could you please Approve/Reject the micro_app to QA usning the below link
-            
-${env.BUILD_URL}input 
-           
-Regards,
-Jenkins""",
-            to: 'aromalraj123@gmail.com'
-            
-          )
-        
-                input message: "Do you want to approve this job to deploy to QA?", submitter: "jenkins"
-                
-
-                    }
-              }
-		 stage('Deploy Application to QA') 
-	    {
-		agent any    
-	      steps
-		    {
-		      withCredentials([azureServicePrincipal('azurelogin')])
-			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
-                            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
-			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
-				sh 'kubectl create namespace qa-micro'
-			    sh 'kubectl apply -f deployment.yml --namespace=qa-micro'
-			    echo 'Waiting for external IP to be genarated'
-			    sleep 120 // seconds
-			    sh 'kubectl get svc --namespace=qa-micro'
-		          }
-		    }		    
-            }
+			
 
        }
    }
