@@ -39,7 +39,7 @@ pipeline
 				kubectl delete namespace $namespace
 				else
 				echo "The environment selected does not exist"
-				exit 1
+				
 				fi'''
 			   
 		          }
