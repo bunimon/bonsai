@@ -1,6 +1,9 @@
 pipeline 
   {
     agent none
+	  parameters {
+    gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
+  }
     environment 
        {
 	  resourcegroup = 'RG_MSDP'
@@ -19,9 +22,7 @@ pipeline
 	  dashboarddockerImage = '' 
        }
 
-	   parameters {
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'dummy', name: 'BRANCH', type: 'PT_BRANCH'
-    }
+	
     stages 
        {
 	   stage('Build') 
@@ -34,7 +35,7 @@ pipeline
 		    }
                 steps 
 		    {		
-                        git credentialsId: 'GitHub', branch: "${params.BRANCH}", url: 'https://github.com/Tonyamoljose/microservice-kubernetes-demo.git'
+                        git branch: "${params.BRANCH}", url: 'https://github.com/Tonyamoljose/microservice-kubernetes-demo.git'
                         sh 'mvn clean deploy sonar:sonar'      
                     }
             }
