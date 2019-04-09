@@ -3,7 +3,7 @@ pipeline
     agent none
     environment 
        {
-	  resourcegroup = 'RG_MSDP1'
+	  resourcegroup = 'RG_MSDP'
 	  aksname = 'MSDPaks'
 	  acrservername = 'msdpacr.azurecr.io'
           registryCredential = 'acrcredential'
@@ -19,9 +19,12 @@ pipeline
 	  dashboarddockerImage = '' 
        }
 
+	   parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'dummy', name: 'BRANCH', type: 'PT_BRANCH'
+    }
     stages 
        {
-         stage('Build') 
+	   stage('Build') 
 	    {
 	       agent 
 		    { docker 
@@ -31,7 +34,7 @@ pipeline
 		    }
                 steps 
 		    {		
-                        git credentialsId: 'GitHub', url: 'https://github.com/Tonyamoljose/microservice-kubernetes-demo.git'
+                        git credentialsId: 'GitHub', branch: "${params.BRANCH}", url: 'https://github.com/Tonyamoljose/microservice-kubernetes-demo.git'
                         sh 'mvn clean deploy sonar:sonar'      
                     }
             }
