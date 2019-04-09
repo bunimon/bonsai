@@ -1,0 +1,45 @@
+pipeline 
+  {
+    agent none
+	 parameters {	 
+        choice(name: 'namespace', choices: ['dev-micro', 'qa-micro', 'preview-micro'], description: 'Select namespace to be deleted')
+    }
+    environment 
+       {
+	  resourcegroup = 'RG_MSDP1'
+	  aksname = 'MSDPaks'
+	  acrservername = 'msdpacr.azurecr.io'
+          registryCredential = 'acrcredential'
+	  apacheregistry = 'msdpacr.azurecr.io/apache'
+	  orderregistry = 'msdpacr.azurecr.io/order'
+	  catalogregistry = 'msdpacr.azurecr.io/catalog'
+	  customerregistry = 'msdpacr.azurecr.io/customer'
+          dashboardregistry = 'msdpacr.azurecr.io/hystrix-dashboard'
+	  apachedockerImage = ''
+	  orderdockerImage = ''
+	  catalogdockerImage = ''
+	  customerdockerImage = ''
+	  dashboarddockerImage = '' 
+       }
+
+    stages 
+       {
+         
+         stage('Deletion of selected namespace') 
+	    {
+		agent any    
+	      steps
+		    {
+		      withCredentials([azureServicePrincipal('azurelogin')])
+			  {
+                sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
+				sh 'kubectl delete namespace $namespace'
+			   
+		          }
+		    }		    
+            }
+			 
+
+       }
+   }
