@@ -34,13 +34,12 @@ pipeline
 			  {
                 sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
-				sh label: '', script: '''set -X;kubectl get namespaces | grep $namespace
-				if [ $? -eq 0 ]; then
-				kubectl delete namespace $namespace
-				else
-				echo "The environment selected does not exist"
-				
-				fi'''
+				sh 'kubectl get namespaces | grep $namespace'
+				sh 'if [ $? -eq 0 ]; then'
+				sh 'kubectl delete namespace $namespace'
+				sh 'else'
+				echo 'The environment selected does not exist'				
+				sh 'fi'
 			   
 		          }
 		    }		    
