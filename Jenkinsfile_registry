@@ -2,7 +2,7 @@ pipeline
   {
     environment 
        {
-	  resourcegroup = 'RG_MSDP1'
+	  resourcegroup = 'RG_MSDP3'
 	  aksname = 'MSDPaks'
 	  acrservername = 'registry.msdp.tk:5000'
           registryCredential = 'registrycredential'
