@@ -67,6 +67,7 @@ pipeline
 	    {
 		agent any    
 	      steps
+	          {docker.withRegistry( 'https://msdpacr.azurecr.io', 'acrcredential' )
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
@@ -78,7 +79,8 @@ pipeline
 			    sleep 120 // seconds
 			    sh 'kubectl get svc'
 		          }
-		    }		    
+		    }
+		  }
             }
        }
    }
