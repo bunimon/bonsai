@@ -67,9 +67,7 @@ pipeline
 	    {
 		agent any    
 	      steps
-	         { script {                     
-			      docker.withRegistry( 'https://registry.msdp.tk:5000', 'registrycredential' )
-		          }
+	          {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deplymentregistry.yml'
