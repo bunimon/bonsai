@@ -2,7 +2,7 @@ pipeline
   {
     environment 
        {
-	  resourcegroup = 'RG_MSDP'
+	  resourcegroup = 'RG_MSDP1'
 	  aksname = 'MSDPaks'
 	  acrservername = 'registry.msdp.tk:5000'
           registryCredential = 'registrycredential'
@@ -68,6 +68,16 @@ pipeline
 		agent any    
 	      steps
 	          {
+		    Step
+		       {
+		           withCredentials([usernamePassword('registrycredential')])
+			   {
+			     sh 'sudo docker login https://registry.msdp.tk:5000 -u $USER_ID -p $USER_PASSWORD
+			   }
+			}
+		   
+		    step
+	            {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deplymentregistry.yml'
