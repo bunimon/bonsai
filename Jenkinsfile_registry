@@ -68,16 +68,10 @@ pipeline
 		agent any    
 	      steps
 	          {
-		    Step
-		       {
-		           withCredentials([usernamePassword('registrycredential')])
+		     withCredentials([usernamePassword('registrycredential')])
 			   {
 			     sh 'sudo docker login https://registry.msdp.tk:5000 -u $USER_ID -p $USER_PASSWORD'
 			   }
-			}
-		   
-		    Step
-	            {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deplymentregistry.yml'
@@ -88,7 +82,7 @@ pipeline
 			    sleep 120 // seconds
 			    sh 'kubectl get svc'
 		          }
-		  }  }		    
+		  }  		    
             }
        }
    }
