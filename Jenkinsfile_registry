@@ -76,7 +76,7 @@ pipeline
 			   }
 			}
 		   
-		    step
+		    Step
 	            {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
