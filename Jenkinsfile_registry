@@ -72,7 +72,7 @@ pipeline
 		       {
 		           withCredentials([usernamePassword('registrycredential')])
 			   {
-			     sh 'sudo docker login https://registry.msdp.tk:5000 -u $USER_ID -p $USER_PASSWORD
+			     sh 'sudo docker login https://registry.msdp.tk:5000 -u $USER_ID -p $USER_PASSWORD'
 			   }
 			}
 		   
