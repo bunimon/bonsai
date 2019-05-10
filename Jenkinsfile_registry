@@ -68,12 +68,9 @@ pipeline
 		agent any    
 	      steps
 	          {
-		     withCredentials([usernamePassword('registrycredential')])
-			   {
-			     sh 'sudo docker login https://registry.msdp.tk:5000 -u $USER_ID -p $USER_PASSWORD'
-			   }
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
+			    withDockerRegistry([credentialsId: 'registrycredential', url: 'https://registry.msdp.tk:5000'])
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deplymentregistry.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
