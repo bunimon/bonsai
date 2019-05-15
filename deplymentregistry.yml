@@ -14,6 +14,8 @@ spec:
         image: registry.msdp.tk:5000/apache:version
         ports:
         - containerPort: 80
+        imagePullSecrets:
+        - name: regsecret        
 ---
 apiVersion: v1
 kind: Service
@@ -42,6 +44,8 @@ spec:
         image: registry.msdp.tk:5000/catalog:version
         ports:
         - containerPort: 8080
+        imagePullSecrets:
+        - name: regsecret        
 ---
 apiVersion: v1
 kind: Service
@@ -70,6 +74,8 @@ spec:
         image: registry.msdp.tk:5000/customer:version
         ports:
         - containerPort: 8080
+        imagePullSecrets:
+        - name: regsecret        
 ---
 apiVersion: v1
 kind: Service
@@ -98,6 +104,8 @@ spec:
         image: registry.msdp.tk:5000/hystrix-dashboard:version
         ports:
         - containerPort: 8080
+        imagePullSecrets:
+        - name: regsecret        
 ---
 apiVersion: v1
 kind: Service
@@ -126,6 +134,8 @@ spec:
         image: registry.msdp.tk:5000/order:version
         ports:
         - containerPort: 8080
+        imagePullSecrets:
+        - name: regsecret        
 ---
 apiVersion: v1
 kind: Service
