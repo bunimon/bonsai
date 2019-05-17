@@ -3,15 +3,15 @@ pipeline
     agent none
     environment 
        {
-	  resourcegroup = 'RG_MSDP'
+	  resourcegroup = 'RG_MSDP2'
 	  aksname = 'MSDPaks'
-	  acrservername = 'msdpacr.azurecr.io'
-          registryCredential = 'acrcredential'
-	  apacheregistry = 'msdpacr.azurecr.io/apache'
-	  orderregistry = 'msdpacr.azurecr.io/order'
-	  catalogregistry = 'msdpacr.azurecr.io/catalog'
-	  customerregistry = 'msdpacr.azurecr.io/customer'
-          dashboardregistry = 'msdpacr.azurecr.io/hystrix-dashboard'
+	  acrservername = 'registry.msdp.tk:5000'
+          registryCredential = 'registrycredential'
+	  apacheregistry = 'registry.msdp.tk:5000/apache'
+	  orderregistry = 'registry.msdp.tk:5000/order'
+	  catalogregistry = 'registry.msdp.tk:5000/catalog'
+	  customerregistry = 'registry.msdp.tk:5000/customer'
+          dashboardregistry = 'registry.msdp.tk:5000/hystrix-dashboard'
 	  apachedockerImage = ''
 	  orderdockerImage = ''
 	  catalogdockerImage = ''
@@ -49,13 +49,13 @@ pipeline
                              }
                    }
             }
-	 stage('Deploy Image to ACR') 
+	 stage('Deploy Image to private registry') 
 	    {
 				agent any
                 steps
 		    {
                       script {                     
-			      docker.withRegistry( 'https://msdpacr.azurecr.io', 'acrcredential' ) 
+			      docker.withRegistry( 'https://registry.msdp.tk:5000', 'registrycredential' ) 
 			        { 
 				    apachedockerImage.push() 
 				    orderdockerImage.push()
@@ -73,11 +73,11 @@ pipeline
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
+			    sh 'sed -i s,version,${BUILD_NUMBER},g deploymentregistry.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 				sh 'kubectl create namespace dev-micro'
-			    sh 'kubectl apply -f deployment.yml --namespace=dev-micro'
+			    sh 'kubectl apply -f deploymentregistry.yml --namespace=dev-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc --namespace=dev-micro'
@@ -118,11 +118,11 @@ Jenkins""",
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g deployment.yml'
+			    sh 'sed -i s,version,${BUILD_NUMBER},g deploymentregisrty.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 				sh 'kubectl create namespace qa-micro'
-			    sh 'kubectl apply -f deployment.yml --namespace=qa-micro'
+			    sh 'kubectl apply -f deploymentregistry.yml --namespace=qa-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc --namespace=qa-micro'
