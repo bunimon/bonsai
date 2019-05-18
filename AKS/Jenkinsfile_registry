@@ -3,7 +3,7 @@ pipeline
     agent none
     environment 
        {
-	  resourcegroup = 'RG_MSDP2'
+	  resourcegroup = 'RG_MSDP'
 	  aksname = 'MSDPaks'
 	  acrservername = 'registry.msdp.tk:5000'
           registryCredential = 'registrycredential'
