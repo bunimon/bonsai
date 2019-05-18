@@ -8,13 +8,13 @@ pipeline
        {
 	  resourcegroup = 'RG_MSDP'
 	  aksname = 'MSDPaks'
-	  acrservername = 'msdpacr.azurecr.io'
-          registryCredential = 'acrcredential'
-	  apacheregistry = 'msdpacr.azurecr.io/apache'
-	  orderregistry = 'msdpacr.azurecr.io/order'
-	  catalogregistry = 'msdpacr.azurecr.io/catalog'
-	  customerregistry = 'msdpacr.azurecr.io/customer'
-          dashboardregistry = 'msdpacr.azurecr.io/hystrix-dashboard'
+	  acrservername = 'registry.msdp.tk:5000'
+          registryCredential = 'registrycredential'
+	  apacheregistry = 'registry.msdp.tk:5000/apache'
+	  orderregistry = 'registry.msdp.tk:5000/order'
+	  catalogregistry = 'registry.msdp.tk:5000/catalog'
+	  customerregistry = 'registry.msdp.tk:5000/customer'
+          dashboardregistry = 'registry.msdp.tk:5000/hystrix-dashboard'
 	  apachedockerImage = ''
 	  orderdockerImage = ''
 	  catalogdockerImage = ''
@@ -59,7 +59,7 @@ pipeline
                 steps
 		    {
                       script {                     
-			      docker.withRegistry( 'https://msdpacr.azurecr.io', 'acrcredential' ) 
+			      docker.withRegistry( 'https://registry.msdp.tk:5000', 'registrycredential' ) 
 			        { 
 				    apachedockerImage.push() 
 				    orderdockerImage.push()
@@ -77,11 +77,12 @@ pipeline
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deployment_ACR.yml'
+			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deployment_registry.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 				sh 'kubectl create namespace preview-micro'
-			    sh 'kubectl apply -f AKS/deployment_ACR.yml --namespace=preview-micro'
+			    sh 'sed -i s,namespace_name,preview-micro,g AKS/secret.yaml
+			    sh 'kubectl apply -f AKS/deployment_registry.yml --namespace=preview-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc --namespace=preview-micro'
