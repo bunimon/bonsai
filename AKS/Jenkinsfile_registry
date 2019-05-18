@@ -73,13 +73,13 @@ pipeline
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deploymentregistry.yml'
+			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deployment_registry.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 			    sh 'kubectl create namespace dev-micro'
 			    sh 'sed -i s,namespace_name,dev-micro,g AKS/secret.yaml'
 			    sh 'kubectl apply -f AKS/secret.yaml'
-			    sh 'kubectl apply -f AKS/deploymentregistry.yml --namespace=dev-micro'
+			    sh 'kubectl apply -f AKS/deployment_registry.yml --namespace=dev-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc --namespace=dev-micro'
@@ -120,13 +120,13 @@ Jenkins""",
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deploymentregistry.yml'
+			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deployment_registry.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 				sh 'kubectl create namespace qa-micro'
 			    sh 'sed -i s,namespace_name,qa-micro,g AKS/secret.yaml'
 			    sh 'kubectl apply -f AKS/secret.yaml'
-			    sh 'kubectl apply -f AKS/deploymentregistry.yml --namespace=qa-micro'
+			    sh 'kubectl apply -f AKS/deployment_registry.yml --namespace=qa-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc --namespace=qa-micro'
