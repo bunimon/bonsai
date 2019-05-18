@@ -6,7 +6,7 @@ pipeline
     }
     environment 
        {
-	  resourcegroup = 'RG_MSDP2'
+	  resourcegroup = 'RG_MSDP'
 	  aksname = 'MSDPaks'
 	}
 
