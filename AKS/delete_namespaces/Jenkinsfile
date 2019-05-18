@@ -8,19 +8,7 @@ pipeline
        {
 	  resourcegroup = 'RG_MSDP'
 	  aksname = 'MSDPaks'
-	  acrservername = 'msdpacr.azurecr.io'
-          registryCredential = 'acrcredential'
-	  apacheregistry = 'msdpacr.azurecr.io/apache'
-	  orderregistry = 'msdpacr.azurecr.io/order'
-	  catalogregistry = 'msdpacr.azurecr.io/catalog'
-	  customerregistry = 'msdpacr.azurecr.io/customer'
-          dashboardregistry = 'msdpacr.azurecr.io/hystrix-dashboard'
-	  apachedockerImage = ''
-	  orderdockerImage = ''
-	  catalogdockerImage = ''
-	  customerdockerImage = ''
-	  dashboarddockerImage = '' 
-       }
+	}
 
     stages 
        {
