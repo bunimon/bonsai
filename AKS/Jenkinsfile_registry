@@ -76,7 +76,8 @@ pipeline
 			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deploymentregistry.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
-			    sh 'kubectl apply -f AKS/deploymentregistry.yml'
+			    sh 'kubectl create namespace dev-micro'
+			    sh 'kubectl apply -f AKS/deploymentregistry.yml --namespace=dev-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc --namespace=dev-micro'
