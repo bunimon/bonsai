@@ -73,11 +73,11 @@ pipeline
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deployment.yml'
+			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deploymentACR.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 				sh 'kubectl create namespace dev-micro'
-			    sh 'kubectl apply -f AKS/deployment.yml --namespace=dev-micro'
+			    sh 'kubectl apply -f AKS/deploymentACR.yml --namespace=dev-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc --namespace=dev-micro'
@@ -118,11 +118,11 @@ Jenkins""",
 		    {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deployment.yml'
+			    sh 'sed -i s,version,${BUILD_NUMBER},g AKS/deploymentACR.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 			    sh 'kubectl create namespace qa-micro'
-			    sh 'kubectl apply -f AKS/deployment.yml --namespace=qa-micro'
+			    sh 'kubectl apply -f AKS/deploymentACR.yml --namespace=qa-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc --namespace=qa-micro'
