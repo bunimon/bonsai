@@ -77,7 +77,6 @@ pipeline
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
 			    sh 'kubectl get svc'
-			    }
 		          }
 		  }  		    
             }
