@@ -70,12 +70,9 @@ pipeline
 	          {
 		      withCredentials([azureServicePrincipal('azurelogin')])
 			  {
-			    withDockerRegistry([credentialsId: 'registrycredential', url: 'https://registry.msdp.tk:5000'])
-			    {
 			    sh 'sed -i s,version,${BUILD_NUMBER},g deploymentregistry.yml'
                             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
-			    sh 'kubectl create secret docker-registry regsecret --docker-server=registry.msdp.tk:5000 --docker-email=tonyamoljose@gmail.com'
 			    sh 'kubectl apply -f deploymentregistry.yml'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
