@@ -82,6 +82,7 @@ pipeline
 			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
 				sh 'kubectl create namespace preview-micro'
 			    sh 'sed -i s,namespace_name,preview-micro,g AKS/secret.yaml
+			    sh 'kubectl apply -f AKS/secret.yaml'
 			    sh 'kubectl apply -f AKS/deployment_registry.yml --namespace=preview-micro'
 			    echo 'Waiting for external IP to be genarated'
 			    sleep 120 // seconds
