@@ -1,0 +1,33 @@
+pipeline 
+  {
+    agent none
+	 parameters {	 
+        choice(name: 'namespace', choices: ['dev-micro', 'qa-micro', 'preview-micro'], description: 'Select namespace to be deleted')
+    }
+    environment 
+       {
+	  resourcegroup = 'RG_MSDP'
+	  aksname = 'MSDPaks'
+	}
+
+    stages 
+       {
+         
+         stage('Deletion of selected namespace') 
+	    {
+		agent any    
+	      steps
+		    {
+		      withCredentials([azureServicePrincipal('azurelogin')])
+			  {
+                sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
+				sh 'kubectl delete namespace $namespace'
+			   
+		          }
+		    }		    
+            }
+			 
+
+       }
+   }
