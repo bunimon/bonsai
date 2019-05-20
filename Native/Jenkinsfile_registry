@@ -16,7 +16,8 @@ pipeline
 	  orderdockerImage = ''
 	  catalogdockerImage = ''
 	  customerdockerImage = ''
-	  dashboarddockerImage = '' 
+	  dashboarddockerImage = ''
+	  namespace = 'dev-micro'
        }
 
     stages 
@@ -66,69 +67,44 @@ pipeline
                              }
                     }
              }
-         stage('Deploy Application to DEV') 
-	    {
-		agent any    
-	      steps
-		    {
-		      withCredentials([azureServicePrincipal('azurelogin')])
-			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g Native/deployment_registry.yml'
-                            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
-			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
-			    sh 'kubectl create namespace dev-micro'
-			    sh 'kubectl apply -f Native/deployment_registry.yml --namespace=dev-micro'
-			    echo 'Waiting for external IP to be genarated'
-			    sleep 120 // seconds
-			    sh 'kubectl get svc --namespace=dev-micro'
-		          }
-		    }		    
-            }
-			              stage ('QA Promotion')
-              {
-
-                  steps
-                  {
-                      
-                        emailext (
-            subject: "QA Deployment Approval for micro app",
-            body: """Hi Team,
-            
-Dev verification for the micro_app has been completed. 
-            
-Could you please Approve/Reject the micro_app to QA usning the below link
-            
-${env.BUILD_URL}input 
+//Stage 3 : Deploy Application
+  stage('Deploy Application') {
+       switch (namespace) {
+              //Roll out to Dev Environment
+              case "dev-micro":
+                   // Create namespace if it doesn't exist
+                   sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
            
-Regards,
-Jenkins""",
-            to: 'aromalraj123@gmail.com'
-            
-          )
-        
-                input message: "Do you want to approve this job to deploy to QA?", submitter: "jenkins"
-                
+                   //Create or update resources
+           sh("kubectl --namespace=${namespace} apply -f Native/deployment_registry.yaml")
+                  
+           //Grab the external Ip address of the service
+                 //  sh("echo http://`kubectl --namespace=${namespace} get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
+                   //break
+           
+        //Roll out to Dev Environment
+              case "production":
+                   // Create namespace if it doesn't exist
+                   sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
+           //Update the imagetag to the latest version
+                   sh("sed -i.bak 's#gcr.io/${project}/${appName}:${imageVersion}#${imageTag}#' ./k8s/production/*.yaml")
+           //Create or update resources
+                   sh("kubectl --namespace=${namespace} apply -f k8s/production/deployment.yaml")
+                   sh("kubectl --namespace=${namespace} apply -f k8s/production/service.yaml")
+           //Grab the external Ip address of the service
+                   sh("echo http://`kubectl --namespace=${namespace} get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
+                   break
+       
+              default:
+                   sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
+                   sh("sed -i.bak 's#gcr.io/${project}/${appName}:${imageVersion}#${imageTag}#' ./k8s/development/*.yaml")
+                   sh("kubectl --namespace=${namespace} apply -f k8s/development/deployment.yaml")
+                   sh("kubectl --namespace=${namespace} apply -f k8s/development/service.yaml")
+                   sh("echo http://`kubectl --namespace=${namespace} get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
+                   break
+  }
 
-                    }
-              }
-		 stage('Deploy Application to QA') 
-	    {
-		agent any    
-	      steps
-		    {
-		      withCredentials([azureServicePrincipal('azurelogin')])
-			  {
-			    sh 'sed -i s,version,${BUILD_NUMBER},g Native/deployment_registry.yml'
-                            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
-			    sh 'az aks get-credentials --resource-group $resourcegroup --name $aksname'
-				sh 'kubectl create namespace qa-micro'
-			    sh 'kubectl apply -f Native/deployment_registry.yml --namespace=qa-micro'
-			    echo 'Waiting for external IP to be genarated'
-			    sleep 120 // seconds
-			    sh 'kubectl get svc --namespace=qa-micro'
-		          }
-		    }		    
-            }
+}
 
        }
    }
