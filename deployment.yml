@@ -95,7 +95,7 @@ spec:
     spec:
       containers:
       - name: dashboard-container
-        image: tonyamoljose/hystrix-dashboard:275
+        image: tonyamoljose/dashboard:275
         ports:
         - containerPort: 8080
 ---
@@ -123,7 +123,7 @@ spec:
     spec:
       containers:
       - name: demo-container
-        image: tonyamoljose/order:275
+        image: tonyamoljose/demo:275
         ports:
         - containerPort: 8080
 ---
