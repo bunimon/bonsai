@@ -72,7 +72,7 @@ pipeline
   		agent any
                 steps
        {
-            
+                   sh 'sed -i s,version,${BUILD_NUMBER},g Native/deployment_registry.yml
                    sh 'kubectl get ns ${namespace} || kubectl create ns ${namespace}'
                    sh 'kubectl --namespace=${namespace} apply -f Native/deployment_registry.yml'   
   
