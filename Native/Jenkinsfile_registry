@@ -74,7 +74,7 @@ pipeline
        {
             
                    sh 'kubectl get ns ${namespace} || kubectl create ns ${namespace}'
-                   sh 'kubectl --namespace=${namespace} apply -f Native/deployment_registry.yaml'   
+                   sh 'kubectl --namespace=${namespace} apply -f Native/deployment_registry.yml'   
   
   }
 
