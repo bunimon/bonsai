@@ -20,9 +20,10 @@ kind: Service
 metadata:
   name: apache
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 80
+    nodePort: 32024
   selector:
     app: apache
 ---
@@ -48,9 +49,10 @@ kind: Service
 metadata:
   name: catalog
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 8080
+    nodePort: 32025
   selector:
     app: catalog
 ---
@@ -76,9 +78,10 @@ kind: Service
 metadata:
   name: customer
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 8080
+    nodePort: 32026
   selector:
     app: customer
 ---
@@ -104,9 +107,10 @@ kind: Service
 metadata:
   name: hystrix-dashboard
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 8080
+    nodePort: 32027
   selector:
     app: dashboard
 ---
@@ -132,8 +136,9 @@ kind: Service
 metadata:
   name: order
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 8080
+    nodePort: 32028
   selector:
     app: demo
